@@ -4,12 +4,15 @@
 #include <time.h>
 #include "forca.h"
 
+#define TAMANHO_PALAVRA 20;
+
 //variaveis globais
-char palavrasecreta[TAMANHO_PALAVRA];
+char palavrasecreta[20 ];
 char chutes[26];
 int chutesdados = 0;
 
-int enforcou(){
+
+int chuteserrados(){
     int erros = 0;
     for(int i = 0; i < chutesdados; i++){
         int existe = 0;
@@ -21,7 +24,12 @@ int enforcou(){
         }
         if(!existe) erros++;
     }
-    return erros >= 5;
+    return erros;
+}
+
+int enforcou(){
+   
+    return chuteserrados() >= 5;
 }
 
 int ganhou(){
@@ -61,6 +69,20 @@ int jachutou(char letra) {
 
 void desenhaforca() {
 
+    //if iternarios: podem ser colocados ao longo do printf, basta colocar entre parenteses
+    //               (<condicao> ? <opcoes dentro do if1 : opcao dentro do if2>)
+    int erros = chuteserrados();
+
+    printf("  _______       \n");
+    printf(" |/      |      \n");
+    printf(" |      %c%c%c  \n", (erros>=1?'(':' '), (erros>=1?'_':' '), (erros>=1?')':' '));
+    printf(" |      %c%c%c  \n", (erros>=3?'\\':' '), (erros>=2?'|':' '), (erros>=3?'/': ' '));
+    printf(" |       %c     \n", (erros>=2?'|':' '));
+    printf(" |      %c %c   \n", (erros>=4?'/':' '), (erros>=4?'\\':' '));
+    printf(" |              \n");
+    printf("_|___           \n");
+    printf("\n\n");
+
     printf("Voce ja deu %d chutes\n", chutesdados);
 
     for(int i = 0; i < strlen(palavrasecreta); i++) {
@@ -83,7 +105,7 @@ void adicionapalavra(){
     scanf(" %c", &quer);
 
     if(quer == 'S'){
-        char novapalavra[TAMANHO_PALAVRA]; //criando espaco para a nova palavra
+        char novapalavra[20]; //criando espaco para a nova palavra
         printf("Qual a nova palavra? ");
         scanf("%s", novapalavra); //coletando nova palavra
 
@@ -92,8 +114,8 @@ void adicionapalavra(){
         f = fopen("palavras.txt", "r+"); //r+ abre como leitura e escrita
         
         if(f == 0) {
-        printf("Banco de dados de palavras nao disponivel\n\n");
-        exit(1);
+            printf("Banco de dados de palavras nao disponivel\n\n");
+            exit(1);
         }
 
         int qtd;//quantidade de linhas definidas no arquivo txt
@@ -160,12 +182,36 @@ int main() {
     } while (!ganhou() && !enforcou());
 
     if(ganhou()) {
-        printf("\nParabens! Voce Ganhou\n");
-        //add asiic art
+        printf("\n  Parabens! Voce Ganhou\n");
+        printf("       ___________      \n");
+        printf("      '._==_==_=_.'     \n");
+        printf("      .-\\:      /-.    \n");
+        printf("     | (|:.     |) |    \n");
+        printf("      '-|:.     |-'     \n");
+        printf("        \\::.    /      \n");
+        printf("         '::. .'        \n");
+        printf("           ) (          \n");
+        printf("         _.' '._        \n");
+        printf("        '-------'       \n\n");
     } else {
         printf("\nVoce Enforcou, ou seja, PERDEU!\n");
-        printf("A palavra era **%s**\n\n", palavrasecreta);
-        //add asiic art
+        printf("A palavra era **%s**\n", palavrasecreta);
+        printf("    _______________         \n");
+        printf("   /               \\       \n"); 
+        printf("  /                 \\      \n");
+        printf("//                   \\/\\  \n");
+        printf("\\|   XXXX     XXXX   | /   \n");
+        printf(" |   XXXX     XXXX   |/     \n");
+        printf(" |   XXX       XXX   |      \n");
+        printf(" |                   |      \n");
+        printf(" \\__      XXX      __/     \n");
+        printf("   |\\     XXX     /|       \n");
+        printf("   | |           | |        \n");
+        printf("   | I I I I I I I |        \n");
+        printf("   |  I I I I I I  |        \n");
+        printf("   \\_             _/       \n");
+        printf("     \\_         _/         \n");
+        printf("       \\_______/           \n");
     }
 
     adicionapalavra();
