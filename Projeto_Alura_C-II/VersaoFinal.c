@@ -49,9 +49,18 @@ void abertura() {
 
 void chuta() {
     char chute;
-    printf("Qual letra? ");
-    scanf(" %c", &chute);
-
+    int alerta; 
+    do {
+        printf("Qual letra? ");
+        scanf(" %c", &chute);
+        for(int i = 0; i < 26; i++){
+            if (chutes[i] == chute) {
+                alerta = 1;
+                printf("\nA letra %c ja foi chutada, chute novamente\n", chute);
+                break;
+            } else alerta = 0;
+        }
+    } while(alerta == 1);
     chutes[chutesdados] = chute;
     chutesdados++;
 }
@@ -74,14 +83,22 @@ void desenhaforca() {
     int erros = chuteserrados();
 
     printf("  _______       \n");
-    printf(" |/      |      \n");
+    printf(" |/      |      \n"); 
     printf(" |      %c%c%c  \n", (erros>=1?'(':' '), (erros>=1?'_':' '), (erros>=1?')':' '));
     printf(" |      %c%c%c  \n", (erros>=3?'\\':' '), (erros>=2?'|':' '), (erros>=3?'/': ' '));
     printf(" |       %c     \n", (erros>=2?'|':' '));
     printf(" |      %c %c   \n", (erros>=4?'/':' '), (erros>=4?'\\':' '));
     printf(" |              \n");
     printf("_|___           \n");
-    printf("\n\n");
+    printf("\n");
+    
+    printf("Letra ja chutadas: ");
+    for(int i = 0; i < 26; i++){
+        if (chutes[i] == ' ') {
+
+        } else printf("%c ", chutes[i]);
+    }
+    printf("\n");
 
     printf("Voce ja deu %d chutes\n", chutesdados);
 
